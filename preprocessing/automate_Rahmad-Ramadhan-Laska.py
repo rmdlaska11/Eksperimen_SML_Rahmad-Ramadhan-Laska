@@ -84,3 +84,22 @@ def preprocessing_pipeline(filepath):
     test_final['Weather Type'] = y_test_enc
 
     return train_final, test_final
+
+# === Bagian utama untuk automatisasi ===
+def main():
+    # Path file input dan output
+    input_path = "weathertype_raw/weather_classification_data.csv"
+    output_dir = "preprocessing"
+    os.makedirs(output_dir, exist_ok=True)
+
+    output_train = os.path.join(output_dir, "train_data.csv")
+    output_test = os.path.join(output_dir, "test_data.csv")
+
+    # Jalankan pipeline dan simpan hasil
+    train_final, test_final = preprocessing_pipeline(input_path)
+    train_final.to_csv(output_train, index=False)
+    test_final.to_csv(output_test, index=False)
+    print(f"✅ Preprocessing selesai. Dataset disimpan di:\n- {output_train}\n- {output_test}")
+
+if __name__ == "__main__":
+    main()
