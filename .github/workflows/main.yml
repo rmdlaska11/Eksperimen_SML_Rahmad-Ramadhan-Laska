@@ -1,0 +1,39 @@
+name: Auto Preprocessing
+
+on:
+  push:
+    paths:
+      - 'weathertype_raw/**'
+      - 'preprocessing/automate_Rahmad-Ramadhan-Laska.py'
+  workflow_dispatch:
+
+jobs:
+  preprocessing:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: 🔽 Checkout repository
+      uses: actions/checkout@v3
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: 🐍 Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+
+    - name: 📦 Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pandas numpy scikit-learn joblib
+
+    - name: ⚙️ Run preprocessing script
+      run: python preprocessing/automate_Rahmad-Ramadhan-Laska.py
+
+    - name: 📥 Commit & push updated preprocessed dataset
+      run: |
+        git config user.name "github-actions[bot]"
+        git config user.email "github-actions[bot]@users.noreply.github.com"
+        git add preprocessing/*.csv
+        git commit -m "🔄 Update preprocessed dataset [auto]" || echo "No changes to commit"
+        git push
