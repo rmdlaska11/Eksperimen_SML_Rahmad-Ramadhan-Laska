@@ -5,6 +5,7 @@ on:
     paths:
       - 'weathertype_raw/**'
       - 'preprocessing/automate_Rahmad-Ramadhan-Laska.py'
+  workflow_dispatch:
 
 jobs:
   preprocessing:
